@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial de Llamadas version 4</title>
+    <title>Historial de Llamadas version 5</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -156,7 +156,7 @@
         .card-body {
             padding: 10px 12px;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 8px 14px;
             background: white;
         }
@@ -197,7 +197,7 @@
             padding: 5px 8px;
             margin-top: 3px;
         }
-        .comment-text { font-size: 10px; color: #333; line-height: 1.3; }
+        .comment-text { font-size: 12px; color: #333; line-height: 1.3; }
         .comment-date { font-size: 8px; color: #888; margin-top: 2px; }
 
         .no-data { color: #bbb; font-size: 9px; font-style: italic; }
@@ -490,7 +490,6 @@
                 var cm = c.comments[i];
                 t += '<div class="comment-block">'
                    + '<div class="comment-text">💬 ' + esc(cm.comment) + '</div>'
-                   + '<div class="comment-date">' + fmtDate(cm.create_date) + '</div>'
                    + '</div>';
             }
             commentsHtml = t;
@@ -529,7 +528,6 @@
             +       '<span style="color:' + ccColor + ';font-weight:600;font-size:10px;">' + esc(cc) + '</span>'
             +     '</div></div>'
             +   '</div>'
-            +   '<div class="divider"></div>'
             +   '<div class="field full">'
             +     '<div class="fl">Tipificación (código / tipo)</div>'
             +     '<div class="fv">' + wrapHtml + '</div>'
@@ -542,14 +540,14 @@
             +     '<div class="fl">Temas</div>'
             +     '<div class="fv">' + topicsHtml + '</div>'
             +   '</div>'
+               +   '<div class="field full">'
+            +     '<div class="fl">Campaña</div>'
+            +     '<div class="fv">' + campHtml + '</div>'
+            +   '</div>'
             +   '<div class="divider"></div>'
             +   '<div class="field full">'
             +     '<div class="fl">Comentarios</div>'
             +     '<div class="fv">' + commentsHtml + '</div>'
-            +   '</div>'
-            +   '<div class="field full">'
-            +     '<div class="fl">Campaña</div>'
-            +     '<div class="fv">' + campHtml + '</div>'
             +   '</div>'
             + '</div>'
             + '</div>';
