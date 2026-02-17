@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v9 <span class="auto-indicator" id="autoIndicator" style="display:none">● Auto</span></h1>
+        <h1>🔍 Historial de Llamadas v9 </h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -278,7 +278,7 @@
     const stateLoad     = document.getElementById('stateLoading');
     const stateError    = document.getElementById('stateError');
     const callList      = document.getElementById('callList');
-    const autoIndicator = document.getElementById('autoIndicator');
+    //const autoIndicator = document.getElementById('autoIndicator');
 
     showState('empty');
 
@@ -316,7 +316,7 @@
 
                 if (phone) {
                     phoneInput.value = phone;
-                    autoIndicator.style.display = 'inline-block';
+                    //autoIndicator.style.display = 'inline-block';
                     doSearch(true);
                 }
             }
@@ -328,7 +328,7 @@
                 
                 if (phone) {
                     phoneInput.value = phone;
-                    autoIndicator.style.display = 'inline-block';
+                    //autoIndicator.style.display = 'inline-block';
                     doSearch(true);
                 }
             }
