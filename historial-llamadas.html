@@ -202,7 +202,7 @@
 
         .no-data { color: #bbb; font-size: 9px; font-style: italic; }
 
-        /* AUTO SEARCH INDICATOR */
+        /* AUTO SEARCH INDICATOR 
         .auto-indicator {
             font-size: 9px;
             color: #667eea;
@@ -210,13 +210,13 @@
             background: rgba(102, 126, 234, 0.1);
             border-radius: 3px;
             margin-left: 8px;
-        }
+        }*/
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v10 </h1>
+        <h1>🔍 Historial de Llamadas v11 </h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -394,13 +394,13 @@
             renderCalls(data.result || []);
 
             if (!isAuto) {
-                autoIndicator.style.display = 'none';
+                //autoIndicator.style.display = 'none';
             }
 
         } catch (err) {
             console.error(err);
             showState('error', err.message);
-            autoIndicator.style.display = 'none';
+            //autoIndicator.style.display = 'none';
         } finally {
             searchBtn.disabled = false;
         }
