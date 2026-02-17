@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial de Llamadas version 1</title>
+    <title>Historial de Llamadas version 2</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas <span class="auto-indicator" id="autoIndicator" style="display:none">● Auto</span></h1>
+        <h1>🔍 Historial de Llamadas v2 <span class="auto-indicator" id="autoIndicator" style="display:none">● Auto</span></h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -300,7 +300,7 @@
             const datos = event.data;
             
             console.log('📨 Received postMessage datos:', datos);
-            console.log('📨 Received postMessage datos.call.phone_b:', datos.call.phone_b);
+            console.log('📨 Received postMessage event.data.active_task_data.CALL.phone_b:', event.data.active_task_data.CALL.phone_b);
 
         try {
             var data = event.data;
