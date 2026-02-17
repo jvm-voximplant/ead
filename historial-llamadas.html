@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v8 <span class="auto-indicator" id="autoIndicator" style="display:none">● Auto</span></h1>
+        <h1>🔍 Historial de Llamadas v9 <span class="auto-indicator" id="autoIndicator" style="display:none">● Auto</span></h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -226,24 +226,24 @@
         </div>
     </div>
 
-    <!-- div class="stats-bar" id="statsBar">
+    <div class="stats-bar" id="statsBar">
         <div class="stat-item">
             <span class="stat-label">Total</span>
             <span class="stat-val" id="statTotal">0</span>
         </div>
-        <div class="stat-item">
+        <!--div class="stat-item">
             <span class="stat-label">Exitosas</span>
             <span class="stat-val" style="color:#28a745" id="statOk">0</span>
         </div>
         <div class="stat-item">
             <span class="stat-label">Fallidas</span>
             <span class="stat-val" style="color:#dc3545" id="statFail">0</span>
-        </div>
+        </div-->
         <div class="stat-item">
             <span class="stat-label">Duración total</span>
             <span class="stat-val" style="color:#667eea" id="statDur">0s</span>
         </div>
-    </div-->
+    </div>
 
     <div class="state-box" id="stateEmpty">
         <div class="state-icon">📱</div>
@@ -272,7 +272,7 @@
     const phoneInput    = document.getElementById('phoneInput');
     const searchBtn     = document.getElementById('searchBtn');
 
-    //const statsBar      = document.getElementById('statsBar');
+    const statsBar      = document.getElementById('statsBar');
 
     const stateEmpty    = document.getElementById('stateEmpty');
     const stateLoad     = document.getElementById('stateLoading');
@@ -362,8 +362,8 @@
         var phone = phoneInput.value.trim();
         if (!phone) return;
 
-        //showState('loading');
-        //statsBar.classList.remove('visible');
+        showState('loading');
+        statsBar.classList.remove('visible');
         searchBtn.disabled = true;
 
         try {
@@ -413,7 +413,7 @@
         }
 
         // update stats
-        /*
+        
         var ok  = 0;
         var dur = 0;
         for (var i = 0; i < calls.length; i++) {
@@ -422,14 +422,14 @@
         }
 
         document.getElementById('statTotal').textContent = calls.length;
-        document.getElementById('statOk').textContent   = ok;
-        document.getElementById('statFail').textContent = calls.length - ok;
+        //document.getElementById('statOk').textContent   = ok;
+        //document.getElementById('statFail').textContent = calls.length - ok;
         document.getElementById('statDur').textContent  = fmtSec(dur);
         statsBar.classList.add('visible');
 
         // hide all states, then inject cards
         showState('results');
-         */
+        
         var html = '';
         for (var i = 0; i < calls.length; i++) {
             html += buildCard(calls[i]);
@@ -442,10 +442,13 @@
         var dirLbl = 'Saliente'; // Only showing outbound
         var dirCls = 'dir-out';
 
+        
         var ok      = c.call_status === true;
-        var statLbl = ok ? 'Exitosa' : 'Fallida';
-        var statCls = ok ? 'status-ok' : 'status-fail';
-
+        //var statLbl = ok ? 'Exitosa' : 'Fallida';
+        //var statCls = ok ? 'status-ok' : 'status-fail';
+        var statLbl = '';
+        var statCls ;
+       
         var phoneB = (c.phone_b || '').replace(/@\S+/g, '');
         var durStr = fmtSec(c.duration || 0);
 
@@ -470,7 +473,7 @@
         if (c.tags && c.tags.length) {
             var t = '<div class="pill-row">';
             for (var i = 0; i < c.tags.length; i++) {
-                t += '<span class="pill pill-tag">🏷 ' + esc(c.tags[i].tag_name) + '</span>';
+                t += '<span class="pill pill-tag"> ' + esc(c.tags[i].tag_name) + '</span>';
             }
             tagsHtml = t + '</div>';
         }
@@ -480,7 +483,7 @@
         if (c.topics && c.topics.length) {
             var t = '<div class="pill-row">';
             for (var i = 0; i < c.topics.length; i++) {
-                t += '<span class="pill pill-topic">◆ ' + esc(c.topics[i].topic_name) + '</span>';
+                t += '<span class="pill pill-topic"> ' + esc(c.topics[i].topic_name) + '</span>';
             }
             topicsHtml = t + '</div>';
         }
@@ -512,12 +515,16 @@
             + '<div class="card-header">'
             +   '<div class="phone-row">'
             +     '<span class="dir-badge ' + dirCls + '">' + dirLbl + '</span>'
-            +     '<span class="phone-num">📞 ' + esc(phoneB) + '</span>'
+            +     '<span class="phone-num">📞 ' + esc(phoneB) + '</span>' 
+            +  '<span class="call-date">' + fmtDate(c.datetime_start) + '</span>'
             +   '</div>'
+            /*
             +   '<div class="header-right">'
             +     '<span class="call-date">' + fmtDate(c.datetime_start) + '</span>'
-            +     '<span class="status-badge ' + statCls + '">' + statLbl + '</span>'
+            +     //'<span class="status-badge ' + statCls + '">' + statLbl + '</span>'
+            +      '<span class=""></span>'
             +   '</div>'
+            */
             + '</div>'
             + '<div class="card-body">'
             +   '<div class="field">'
@@ -531,19 +538,19 @@
             +       '<span style="color:' + ccColor + ';font-weight:600;font-size:10px;">' + esc(cc) + '</span>'
             +     '</div></div>'
             +   '</div>'
-            +   '<div class="field full">'
+            +   '<div class="field">'
             +     '<div class="fl">Tipificación (código / tipo)</div>'
             +     '<div class="fv">' + wrapHtml + '</div>'
             +   '</div>'
-            +   '<div class="field full">'
+            +   '<div class="field">'
             +     '<div class="fl">Etiquetas</div>'
             +     '<div class="fv">' + tagsHtml + '</div>'
             +   '</div>'
-            +   '<div class="field full">'
+            +   '<div class="field">'
             +     '<div class="fl">Temas</div>'
             +     '<div class="fv">' + topicsHtml + '</div>'
             +   '</div>'
-               +   '<div class="field full">'
+               +   '<div class="field">'
             +     '<div class="fl">Campaña</div>'
             +     '<div class="fv">' + campHtml + '</div>'
             +   '</div>'
