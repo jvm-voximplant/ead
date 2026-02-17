@@ -278,6 +278,7 @@
     const stateLoad     = document.getElementById('stateLoading');
     const stateError    = document.getElementById('stateError');
     const callList      = document.getElementById('callList');
+    const firstTime     = true;
     //const autoIndicator = document.getElementById('autoIndicator');
 
     showState('empty');
@@ -303,9 +304,11 @@
             console.log('🔵 Received postMessage datos:', datos);
             console.log('🔵 Received postMessage event.data.active_task_data.CALL.phone_b:', event.data.active_task_data.CALL.phone_b);
 
+        if(firstTime)
         try {
             var data = event.data;
             var phone_b = event.data.active_task_data.CALL.phone_b;
+            firstTime     = false;
 
             // Check if this is a call event with phone_b
             if (phone_b) {
