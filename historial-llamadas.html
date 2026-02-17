@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial de Llamadas version 5</title>
+    <title>Historial de Llamadas version 8</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v7 <span class="auto-indicator" id="autoIndicator" style="display:none">● Auto</span></h1>
+        <h1>🔍 Historial de Llamadas v8 <span class="auto-indicator" id="autoIndicator" style="display:none">● Auto</span></h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -362,8 +362,8 @@
         var phone = phoneInput.value.trim();
         if (!phone) return;
 
-        showState('loading');
-        statsBar.classList.remove('visible');
+        //showState('loading');
+        //statsBar.classList.remove('visible');
         searchBtn.disabled = true;
 
         try {
