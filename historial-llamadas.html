@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v2 <span class="auto-indicator" id="autoIndicator" style="display:none">● Auto</span></h1>
+        <h1>🔍 Historial de Llamadas v3 <span class="auto-indicator" id="autoIndicator" style="display:none">● Auto</span></h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -304,10 +304,11 @@
 
         try {
             var data = event.data;
-            
+            var phone_b = event.data.active_task_data.CALL.phone_b;
+
             // Check if this is a call event with phone_b
-            if (data && data.call && data.call.phone_b) {
-                var phone = String(data.call.phone_b).replace(/@\S+/g, '').trim();
+            if (data && data.call && phone_b) {
+                var phone = String(phone_b).replace(/@\S+/g, '').trim();
                 
                 console.log('Call event detected, phone_b:', phone);
                 
@@ -318,8 +319,8 @@
                 }
             }
             // Alternative structure - check for direct phone_b
-            else if (data && data.phone_b) {
-                var phone = String(data.phone_b).replace(/@\S+/g, '').trim();
+            else if (data && phone_b) {
+                var phone = String(phone_b).replace(/@\S+/g, '').trim();
                 
                 console.log('Phone data detected, phone_b:', phone);
                 
@@ -334,7 +335,8 @@
         }
     });
 
-    // Also listen for custom events
+    // Also listen for custom events 
+    /*
     window.addEventListener('voximplant-call', function(event) {
         console.log('Voximplant call event:', event);
         
@@ -352,7 +354,7 @@
         } catch(err) {
             console.error('Error processing voximplant-call event:', err);
         }
-    });
+    }); */
 
     async function doSearch(isAuto) {
         var phone = phoneInput.value.trim();
