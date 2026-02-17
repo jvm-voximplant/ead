@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v4 <span class="auto-indicator" id="autoIndicator" style="display:none">● Auto</span></h1>
+        <h1>🔍 Historial de Llamadas v7 <span class="auto-indicator" id="autoIndicator" style="display:none">● Auto</span></h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -226,7 +226,7 @@
         </div>
     </div>
 
-    <div class="stats-bar" id="statsBar">
+    <!-- div class="stats-bar" id="statsBar">
         <div class="stat-item">
             <span class="stat-label">Total</span>
             <span class="stat-val" id="statTotal">0</span>
@@ -243,7 +243,7 @@
             <span class="stat-label">Duración total</span>
             <span class="stat-val" style="color:#667eea" id="statDur">0s</span>
         </div>
-    </div>
+    </div-->
 
     <div class="state-box" id="stateEmpty">
         <div class="state-icon">📱</div>
@@ -271,7 +271,9 @@
 
     const phoneInput    = document.getElementById('phoneInput');
     const searchBtn     = document.getElementById('searchBtn');
-    const statsBar      = document.getElementById('statsBar');
+
+    //const statsBar      = document.getElementById('statsBar');
+
     const stateEmpty    = document.getElementById('stateEmpty');
     const stateLoad     = document.getElementById('stateLoading');
     const stateError    = document.getElementById('stateError');
@@ -411,6 +413,7 @@
         }
 
         // update stats
+        /*
         var ok  = 0;
         var dur = 0;
         for (var i = 0; i < calls.length; i++) {
@@ -426,7 +429,7 @@
 
         // hide all states, then inject cards
         showState('results');
-
+         */
         var html = '';
         for (var i = 0; i < calls.length; i++) {
             html += buildCard(calls[i]);
