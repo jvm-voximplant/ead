@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v11 </h1>
+        <h1>🔍 Historial de Llamadas v12 </h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -294,7 +294,7 @@
     // ══════════════════════════════════════════════════════════════
     window.addEventListener('message', function(event) {
         console.log('🔵 Window message received:', event);
- 
+             console.log('🔵 First time:', firstTime);  
           
             // Optional: Verify the origin for security
             // if (event.origin !== 'https://kit.voximplant.com') return;
@@ -304,12 +304,13 @@
             console.log('🔵 Received postMessage datos:', datos);
             console.log('🔵 Received postMessage event.data.active_task_data.CALL.phone_b:', event.data.active_task_data.CALL.phone_b);
 
-        if(firstTime)
+        if(firstTime){
+          console.log('🔵 entra al first time:', firstTime);  
         try {
             var data = event.data;
             var phone_b = event.data.active_task_data.CALL.phone_b;
-            firstTime     = false;
-
+            firstTime  = false;
+             console.log('🔵 cambia valor first time:', firstTime);  
             // Check if this is a call event with phone_b
             if (phone_b) {
                 var phone = String(phone_b).replace(/@\S+/g, '').trim();
@@ -338,6 +339,7 @@
         } catch(err) {
             console.error('Error processing window message:', err);
         }
+    } //close if
     });
 
     // Also listen for custom events 
