@@ -291,7 +291,15 @@
     // ══════════════════════════════════════════════════════════════
     window.addEventListener('message', function(event) {
         console.log('Window message received:', event);
-        
+          console.log('🔵 Message received from:', event.origin);
+            console.log('🔵 Message data:', event.data);
+            
+            // Optional: Verify the origin for security
+            // if (event.origin !== 'https://kit.voximplant.com') return;
+            
+            const datos = event.data;
+            
+            console.log('📨 Received postMessage data:', datos);
         try {
             var data = event.data;
             
