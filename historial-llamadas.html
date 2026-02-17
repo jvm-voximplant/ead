@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial de Llamadas version 3</title>
+    <title>Historial de Llamadas version 4</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v3 <span class="auto-indicator" id="autoIndicator" style="display:none">● Auto</span></h1>
+        <h1>🔍 Historial de Llamadas v4 <span class="auto-indicator" id="autoIndicator" style="display:none">● Auto</span></h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -290,28 +290,28 @@
     // WINDOW EVENT LISTENER - Auto search on call events
     // ══════════════════════════════════════════════════════════════
     window.addEventListener('message', function(event) {
-        console.log('Window message received:', event);
+        console.log('🔵 Window message received:', event);
  
-            console.log('🔵 Message data:', event.data);
-            
+          
             // Optional: Verify the origin for security
             // if (event.origin !== 'https://kit.voximplant.com') return;
             
             const datos = event.data;
             
-            console.log('📨 Received postMessage datos:', datos);
-            console.log('📨 Received postMessage event.data.active_task_data.CALL.phone_b:', event.data.active_task_data.CALL.phone_b);
+            console.log('🔵 Received postMessage datos:', datos);
+            console.log('🔵 Received postMessage event.data.active_task_data.CALL.phone_b:', event.data.active_task_data.CALL.phone_b);
 
         try {
             var data = event.data;
             var phone_b = event.data.active_task_data.CALL.phone_b;
 
             // Check if this is a call event with phone_b
-            if (data && data.call && phone_b) {
+            if (phone_b) {
                 var phone = String(phone_b).replace(/@\S+/g, '').trim();
                 
-                console.log('Call event detected, phone_b:', phone);
-                
+                console.log('🔵 Call event detected, phone:', phone);
+                document.getElementById("phoneInput").value = phone;
+
                 if (phone) {
                     phoneInput.value = phone;
                     autoIndicator.style.display = 'inline-block';
@@ -319,7 +319,7 @@
                 }
             }
             // Alternative structure - check for direct phone_b
-            else if (data && phone_b) {
+            else if (phone_b) {
                 var phone = String(phone_b).replace(/@\S+/g, '').trim();
                 
                 console.log('Phone data detected, phone_b:', phone);
