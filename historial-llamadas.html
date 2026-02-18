@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v17 </h1>
+        <h1>🔍 Historial de Llamadas v18 </h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -278,7 +278,7 @@
     const stateLoad     = document.getElementById('stateLoading');
     const stateError    = document.getElementById('stateError');
     const callList      = document.getElementById('callList');
-
+    let yaEjecutado = false;
     //const autoIndicator = document.getElementById('autoIndicator');
 
     showState('empty');
@@ -293,8 +293,11 @@
     // WINDOW EVENT LISTENER - Auto search on call events
     // ══════════════════════════════════════════════════════════════
     window.addEventListener('message', function(event) {
-          
-             console.log('🔵 Window message received:', event);
+             
+        console.log('🔵 Window yaEjecutado:', yaEjecutado);
+        if (yaEjecutado) return;
+
+        console.log('🔵 Window message received:', event);
           
           
             // Optional: Verify the origin for security
@@ -441,6 +444,7 @@
             html += buildCard(calls[i]);
         }
         callList.innerHTML = html;
+        yaEjecutado = true;
     }
 
     function buildCard(c) {
