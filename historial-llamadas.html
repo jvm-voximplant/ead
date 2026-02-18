@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v21 </h1>
+        <h1>🔍 Historial de Llamadas</h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -266,8 +266,8 @@
 <script>
     const CONFIG = {
         host:   'kitapi-us.voximplant.com',
-        domain: 'jvega',
-        token:  'd806f1fffd88e7289a0586476203b762161edb71083286a51fad4945d21592ec'
+        domain: 'ead',
+        token:  '9988fc715ac4f554b20732cbfcc3daddda3c7e775c1edddef2f38529bd1aca5f'
     };
 
     const phoneInput    = document.getElementById('phoneInput');
@@ -474,7 +474,7 @@
                       (cc.indexOf('Missed') >= 0 || cc.indexOf('Busy') >= 0) ? '#dc3545' : '#856404';
 
         // wrap_up_code
-        var wrapHtml = '<span class="no-data">Sin tipificación</span>';
+        var wrapHtml = '<span class="no-data">Sin información</span>';
         if (c.wrap_up_code && c.wrap_up_code.title) {
             var tp    = c.wrap_up_code.type || '';
             var tpCls = tp.indexOf('success') >= 0 ? 'wt-success' :
@@ -486,7 +486,7 @@
         }
 
         // tags
-        var tagsHtml = '<span class="no-data">Sin etiquetas</span>';
+        var tagsHtml = '<span class="no-data">Sin información</span>';
         if (c.tags && c.tags.length) {
             var t = '<div class="pill-row">';
             for (var i = 0; i < c.tags.length; i++) {
@@ -496,7 +496,7 @@
         }
 
         // topics
-        var topicsHtml = '<span class="no-data">Sin temas</span>';
+        var topicsHtml = '<span class="no-data">Sin información</span>';
         if (c.topics && c.topics.length) {
             var t = '<div class="pill-row">';
             for (var i = 0; i < c.topics.length; i++) {
@@ -506,7 +506,7 @@
         }
 
         // comments
-        var commentsHtml = '<span class="no-data">Sin comentarios</span>';
+        var commentsHtml = '<span class="no-data">Sin información</span>';
         if (c.comments && c.comments.length) {
             var t = '';
             for (var i = 0; i < c.comments.length; i++) {
@@ -519,7 +519,7 @@
         }
 
         // campaign
-        var campHtml = '<span class="no-data">Sin campaña</span>';
+        var campHtml = '<span class="no-data">Sin información</span>';
         var camp = c.agent_campaign || c.campaign;
         if (camp && camp.title) {
             campHtml = '<div class="pill-row">'
