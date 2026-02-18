@@ -401,8 +401,10 @@
 
             renderCalls(data.result || []);
 
-            if (!isAuto) {
+            if (isAuto) {
                 //autoIndicator.style.display = 'none';
+                yaEjecutado = true;
+
             }
 
         } catch (err) {
@@ -444,7 +446,6 @@
             html += buildCard(calls[i]);
         }
         callList.innerHTML = html;
-        yaEjecutado = true;
     }
 
     function buildCard(c) {
