@@ -295,10 +295,8 @@
     // ══════════════════════════════════════════════════════════════
     window.addEventListener('message', function(event) {
              
-        console.log('🔵 Window yaEjecutado:', yaEjecutado);
+    
         if (yaEjecutado) return;
-
-        console.log('🔵 Window message received:', event);
           
           
             // Optional: Verify the origin for security
@@ -403,13 +401,11 @@
             renderCalls(data.result || []);
 
             if (!isAuto) {
-                //autoIndicator.style.display = 'none';
-                console.log('🔵 isAuto :', isAuto);
+                //autoIndicator.style.display = 'none';   
                 yaEjecutado = false;
-                console.log('🔵cambia a yaEjecutado:', yaEjecutado);
+               
             }else{
                  yaEjecutado = true;
-                 console.log('🔵cambia a yaEjecutado:', yaEjecutado);
 
             }
 
