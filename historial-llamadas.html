@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v14 </h1>
+        <h1>🔍 Historial de Llamadas v15 </h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -278,7 +278,7 @@
     const stateLoad     = document.getElementById('stateLoading');
     const stateError    = document.getElementById('stateError');
     const callList      = document.getElementById('callList');
-    let alreadyExecuted     = false;
+
     //const autoIndicator = document.getElementById('autoIndicator');
 
     showState('empty');
@@ -293,11 +293,9 @@
     // WINDOW EVENT LISTENER - Auto search on call events
     // ══════════════════════════════════════════════════════════════
     window.addEventListener('message', function(event) {
-        
-             if (alreadyExecuted) return;
-             alreadyExecuted = true;
+          
              console.log('🔵 Window message received:', event);
-             console.log('🔵 First time:', firstTime);  
+          
           
             // Optional: Verify the origin for security
             // if (event.origin !== 'https://kit.voximplant.com') return;
@@ -308,12 +306,11 @@
             console.log('🔵 Received postMessage event.data.active_task_data.CALL.phone_b:', event.data.active_task_data.CALL.phone_b);
 
         
-          console.log('🔵 entra al first time:', firstTime);  
+          
         try {
             var data = event.data;
             var phone_b = event.data.active_task_data.CALL.phone_b;
-            firstTime  = false;
-             console.log('🔵 cambia valor first time:', firstTime);  
+             
             // Check if this is a call event with phone_b
             if (phone_b) {
                 var phone = String(phone_b).replace(/@\S+/g, '').trim();
@@ -343,7 +340,7 @@
             console.error('Error processing window message:', err);
         }
 
-    });
+    },{ once: true });
 
     // Also listen for custom events 
     /*
