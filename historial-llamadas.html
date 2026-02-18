@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v13 </h1>
+        <h1>🔍 Historial de Llamadas v14 </h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -278,7 +278,7 @@
     const stateLoad     = document.getElementById('stateLoading');
     const stateError    = document.getElementById('stateError');
     const callList      = document.getElementById('callList');
-    let firstTime     = true;
+    let alreadyExecuted     = false;
     //const autoIndicator = document.getElementById('autoIndicator');
 
     showState('empty');
@@ -293,7 +293,10 @@
     // WINDOW EVENT LISTENER - Auto search on call events
     // ══════════════════════════════════════════════════════════════
     window.addEventListener('message', function(event) {
-        console.log('🔵 Window message received:', event);
+        
+             if (alreadyExecuted) return;
+             alreadyExecuted = true;
+             console.log('🔵 Window message received:', event);
              console.log('🔵 First time:', firstTime);  
           
             // Optional: Verify the origin for security
@@ -304,7 +307,7 @@
             console.log('🔵 Received postMessage datos:', datos);
             console.log('🔵 Received postMessage event.data.active_task_data.CALL.phone_b:', event.data.active_task_data.CALL.phone_b);
 
-        if(firstTime){
+        
           console.log('🔵 entra al first time:', firstTime);  
         try {
             var data = event.data;
@@ -339,7 +342,7 @@
         } catch(err) {
             console.error('Error processing window message:', err);
         }
-    } //close if
+
     });
 
     // Also listen for custom events 
