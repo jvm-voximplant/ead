@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v15 </h1>
+        <h1>🔍 Historial de Llamadas v16 </h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -340,7 +340,7 @@
             console.error('Error processing window message:', err);
         }
 
-    },{ once: true });
+    });
 
     // Also listen for custom events 
     /*
@@ -416,6 +416,7 @@
             showState('empty', 'No se encontraron llamadas salientes para este número');
             return;
         }
+         window.removeEventListener('message', handler);
 
         // update stats
         
