@@ -26,9 +26,7 @@
         h1 { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; }
 
         .search-form { display: flex; gap: 8px; align-items: flex-end; }
-
         .form-group { flex: 1; display: flex; flex-direction: column; }
-
         label { font-weight: 600; color: #555; margin-bottom: 3px; font-size: 11px; }
 
         input[type="text"] {
@@ -57,21 +55,6 @@
         }
         button:hover:not(:disabled) { transform: translateY(-1px); opacity: 0.9; }
         button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-        /* STATS BAR */
-        .stats-bar {
-            background: white;
-            border-radius: 8px;
-            padding: 8px 12px;
-            margin-bottom: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: none;
-        }
-        .stats-bar.visible { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
-
-        .stat-item { display: flex; flex-direction: column; }
-        .stat-label { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 0.4px; }
-        .stat-val { font-size: 14px; font-weight: 700; color: #333; }
 
         /* STATE BOXES */
         .state-box {
@@ -103,7 +86,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            max-height: calc(100vh - 160px);
+            max-height: calc(100vh - 100px);
             overflow-y: auto;
             padding-right: 4px;
         }
@@ -137,26 +120,20 @@
 
         .dir-badge {
             font-size: 9px; font-weight: 600;
-            padding: 2px 6px; border-radius: 3px; text-transform: uppercase;
+            padding: 2px 6px; border-radius: 3px;
+            text-transform: uppercase;
+            background: #cce5ff; color: #004085;
         }
-        .dir-in  { background: #d4edda; color: #155724; }
-        .dir-out { background: #cce5ff; color: #004085; }
 
         .header-right { display: flex; align-items: center; gap: 6px; }
         .call-date { font-size: 9px; color: #888; }
-
-        .status-badge {
-            font-size: 9px; font-weight: 600;
-            padding: 2px 7px; border-radius: 10px; text-transform: uppercase;
-        }
-        .status-ok   { background: #d4edda; color: #155724; }
-        .status-fail { background: #f8d7da; color: #721c24; }
+        .call-duration { font-size: 10px; color: #667eea; font-weight: 600; }
 
         /* CARD BODY */
         .card-body {
             padding: 10px 12px;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 8px 14px;
             background: white;
         }
@@ -164,8 +141,22 @@
         .field { display: flex; flex-direction: column; gap: 2px; }
         .field.full { grid-column: 1 / -1; }
 
-        .fl { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: #888; font-weight: 600; margin-bottom: 1px; }
-        .fv { font-size: 10px; color: #333; word-break: break-word; line-height: 1.4; }
+        .fl {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #888;
+            font-weight: 600;
+            margin-bottom: 1px;
+        }
+
+        .fv {
+            font-size: 10px;
+            color: #333;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
         .fv.bold { font-weight: 700; }
 
         .divider { grid-column: 1 / -1; height: 1px; background: #f0f0f0; margin: 2px 0; }
@@ -197,20 +188,38 @@
             padding: 5px 8px;
             margin-top: 3px;
         }
-        .comment-text { font-size: 12px; color: #333; line-height: 1.3; }
+        .comment-text { font-size: 10px; color: #333; line-height: 1.3; }
         .comment-date { font-size: 8px; color: #888; margin-top: 2px; }
 
-        .no-data { color: #bbb; font-size: 9px; font-style: italic; }
+        /* CALL DATA SECTION */
+        .call-data-section {
+            grid-column: 1 / -1;
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin-top: 4px;
+        }
 
-        /* AUTO SEARCH INDICATOR 
-        .auto-indicator {
+        .call-data-title {
             font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             color: #667eea;
-            padding: 2px 6px;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 3px;
-            margin-left: 8px;
-        }*/
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .call-data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 10px;
+        }
+
+        .call-data-item { display: flex; flex-direction: column; gap: 1px; }
+        .call-data-label { font-size: 8px; color: #888; text-transform: uppercase; letter-spacing: 0.4px; }
+        .call-data-value { font-size: 10px; color: #333; font-weight: 600; }
+
+        .no-data { color: #bbb; font-size: 9px; font-style: italic; }
     </style>
 </head>
 <body>
@@ -226,29 +235,9 @@
         </div>
     </div>
 
-    <div class="stats-bar" id="statsBar">
-        <div class="stat-item">
-            <span class="stat-label">Mostrando últimas</span>
-            <span class="stat-val" id="statTotal">0</span>
-              <span class="stat-label">llamadas</span>
-        </div>
-        <!--div class="stat-item">
-            <span class="stat-label">Exitosas</span>
-            <span class="stat-val" style="color:#28a745" id="statOk">0</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-label">Fallidas</span>
-            <span class="stat-val" style="color:#dc3545" id="statFail">0</span>
-        </div-->
-        <div class="stat-item">
-            <span class="stat-label">Duración total</span>
-            <span class="stat-val" style="color:#667eea" id="statDur">0s</span>
-        </div>
-    </div>
-
     <div class="state-box" id="stateEmpty">
         <div class="state-icon">📱</div>
-        <p class="state-text">Esperando llamada activa o búsqueda manual...</p>
+        <p class="state-text">Ingresa un número de teléfono para buscar llamadas</p>
     </div>
 
     <div class="state-box" id="stateLoading">
@@ -270,113 +259,52 @@
         token:  '9988fc715ac4f554b20732cbfcc3daddda3c7e775c1edddef2f38529bd1aca5f'
     };
 
-    const phoneInput    = document.getElementById('phoneInput');
-    const searchBtn     = document.getElementById('searchBtn');
+    const phoneInput = document.getElementById('phoneInput');
+    const searchBtn  = document.getElementById('searchBtn');
+    const stateEmpty = document.getElementById('stateEmpty');
+    const stateLoad  = document.getElementById('stateLoading');
+    const stateError = document.getElementById('stateError');
+    const callList   = document.getElementById('callList');
 
-    const statsBar      = document.getElementById('statsBar');
+    // ══════════════════════════════════════════════════════════════
+    // GET PHONE FROM URL QUERY PARAM
+    // ══════════════════════════════════════════════════════════════
+    function getPhoneFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('phone');
+    }
 
-    const stateEmpty    = document.getElementById('stateEmpty');
-    const stateLoad     = document.getElementById('stateLoading');
-    const stateError    = document.getElementById('stateError');
-    const callList      = document.getElementById('callList');
-    let yaEjecutado = false;
-    //const autoIndicator = document.getElementById('autoIndicator');
-
-    showState('empty');
+    // ══════════════════════════════════════════════════════════════
+    // INITIALIZE ON PAGE LOAD
+    // ══════════════════════════════════════════════════════════════
+    window.addEventListener('DOMContentLoaded', function() {
+        const phoneFromURL = getPhoneFromURL();
+        
+        if (phoneFromURL) {
+            phoneInput.value = phoneFromURL;
+            doSearch();
+        } else {
+            showState('empty');
+        }
+    });
 
     // Manual search
-    searchBtn.addEventListener('click', function() { doSearch(false); });
+    searchBtn.addEventListener('click', doSearch);
     phoneInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') doSearch(false);
+        if (e.key === 'Enter') doSearch();
     });
 
-    // ══════════════════════════════════════════════════════════════
-    // WINDOW EVENT LISTENER - Auto search on call events
-    // ══════════════════════════════════════════════════════════════
-    window.addEventListener('message', function(event) {
-             
-    
-        if (yaEjecutado) return;
-          
-          
-            // Optional: Verify the origin for security
-            // if (event.origin !== 'https://kit.voximplant.com') return;
-            
-            const datos = event.data;
-            
-            console.log('🔵 Received postMessage datos:', datos);
-            console.log('🔵 Received postMessage event.data.active_task_data.CALL.phone_b:', event.data.active_task_data.CALL.phone_b);
-
-        
-          
-        try {
-            var data = event.data;
-            var phone_b = event.data.active_task_data.CALL.phone_b;
-             
-            // Check if this is a call event with phone_b
-            if (phone_b) {
-                var phone = String(phone_b).replace(/@\S+/g, '').trim();
-                
-                console.log('🔵 Call event detected, phone:', phone);
-                document.getElementById("phoneInput").value = phone;
-
-                if (phone) {
-                    phoneInput.value = phone;
-                    //autoIndicator.style.display = 'inline-block';
-                    doSearch(true);
-                }
-            }
-            // Alternative structure - check for direct phone_b
-            else if (phone_b) {
-                var phone = String(phone_b).replace(/@\S+/g, '').trim();
-                
-                console.log('Phone data detected, phone_b:', phone);
-                
-                if (phone) {
-                    phoneInput.value = phone;
-                    //autoIndicator.style.display = 'inline-block';
-                    doSearch(true);
-                }
-            }
-        } catch(err) {
-            console.error('Error processing window message:', err);
-        }
-
-    });
-
-    // Also listen for custom events 
-    /*
-    window.addEventListener('voximplant-call', function(event) {
-        console.log('Voximplant call event:', event);
-        
-        try {
-            var detail = event.detail;
-            if (detail && detail.phone_b) {
-                var phone = String(detail.phone_b).replace(/@\S+/g, '').trim();
-                
-                if (phone) {
-                    phoneInput.value = phone;
-                    autoIndicator.style.display = 'inline-block';
-                    doSearch(true);
-                }
-            }
-        } catch(err) {
-            console.error('Error processing voximplant-call event:', err);
-        }
-    }); */
-
-    async function doSearch(isAuto) {
-        var phone = phoneInput.value.trim();
+    async function doSearch() {
+        const phone = phoneInput.value.trim();
         if (!phone) return;
 
         showState('loading');
-        statsBar.classList.remove('visible');
         searchBtn.disabled = true;
 
         try {
-            var url = 'https://' + CONFIG.host + '/api/v4/history/searchCalls?domain=' + CONFIG.domain;
+            const url = 'https://' + CONFIG.host + '/api/v4/history/searchCalls?domain=' + CONFIG.domain;
 
-            var params = new URLSearchParams({
+            const params = new URLSearchParams({
                 access_token:        CONFIG.token,
                 phone:               phone,
                 call_direction:      'outgoing',
@@ -388,31 +316,21 @@
                 with_comments:       'true'
             });
 
-            var res = await fetch(url, {
+            const res = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: params
             });
 
             if (!res.ok) throw new Error('HTTP ' + res.status);
-            var data = await res.json();
+            const data = await res.json();
             if (!data.success) throw new Error('La API devolvió success=false');
 
             renderCalls(data.result || []);
 
-            if (!isAuto) {
-                //autoIndicator.style.display = 'none';   
-                yaEjecutado = false;
-               
-            }else{
-                 yaEjecutado = true;
-
-            }
-
         } catch (err) {
             console.error(err);
             showState('error', err.message);
-            //autoIndicator.style.display = 'none';
         } finally {
             searchBtn.disabled = false;
         }
@@ -423,26 +341,9 @@
             showState('empty', 'No se encontraron llamadas salientes para este número');
             return;
         }
-        // window.removeEventListener('message', handler);
 
-        // update stats
-        
-        var ok  = 0;
-        var dur = 0;
-        for (var i = 0; i < calls.length; i++) {
-            if (calls[i].call_status === true) ok++;
-            dur += (calls[i].duration || 0);
-        }
-
-        document.getElementById('statTotal').textContent = calls.length;
-        //document.getElementById('statOk').textContent   = ok;
-        //document.getElementById('statFail').textContent = calls.length - ok;
-        document.getElementById('statDur').textContent  = fmtSec(dur);
-        statsBar.classList.add('visible');
-
-        // hide all states, then inject cards
         showState('results');
-        
+
         var html = '';
         for (var i = 0; i < calls.length; i++) {
             html += buildCard(calls[i]);
@@ -451,99 +352,108 @@
     }
 
     function buildCard(c) {
-        var isIn   = c.is_incoming === true;
-        var dirLbl = 'Saliente'; // Only showing outbound
-        var dirCls = 'dir-out';
+        const phoneB = (c.phone_b || '').replace(/@\S+/g, '');
+        const durStr = fmtSec(c.duration || 0);
 
-        
-        var ok      = c.call_status === true;
-        //var statLbl = ok ? 'Exitosa' : 'Fallida';
-        //var statCls = ok ? 'status-ok' : 'status-fail';
-        var statLbl = '';
-        var statCls ;
-       
-        var phoneB = (c.phone_b || '').replace(/@\S+/g, '');
-        var durStr = fmtSec(c.duration || 0);
-
-        var cc      = c.completion_code || '—';
-        var ccColor = cc.indexOf('Answered') >= 0 ? '#28a745' :
-                      (cc.indexOf('Missed') >= 0 || cc.indexOf('Busy') >= 0) ? '#dc3545' : '#856404';
-
-        // wrap_up_code
-        var wrapHtml = '<span class="no-data">Sin información</span>';
-        if (c.wrap_up_code && c.wrap_up_code.title) {
-            var tp    = c.wrap_up_code.type || '';
-            var tpCls = tp.indexOf('success') >= 0 ? 'wt-success' :
-                        tp.indexOf('fail')    >= 0 ? 'wt-failure' : 'wt-neutral';
-            wrapHtml  = '<div class="wrapup-row">'
-                      + '<span class="wrapup-title">' + esc(c.wrap_up_code.title) + '</span>'
-                      + (tp ? '<span class="wrapup-type ' + tpCls + '">' + esc(tp) + '</span>' : '')
-                      + '</div>';
+        // Parse call_data JSON
+        let callData = {};
+        try {
+            if (c.call_data) {
+                callData = JSON.parse(c.call_data);
+            }
+        } catch(e) {
+            console.error('Error parsing call_data:', e);
         }
 
-        // tags
-        var tagsHtml = '<span class="no-data">Sin información</span>';
+        // Completion code
+        const cc = c.completion_code || '—';
+        const ccColor = cc.indexOf('Answered') >= 0 ? '#28a745' :
+                        (cc.indexOf('Missed') >= 0 || cc.indexOf('Busy') >= 0) ? '#dc3545' : '#856404';
+
+        // Wrap up code
+        let wrapHtml = '<span class="no-data">Sin tipificación</span>';
+        if (c.wrap_up_code && c.wrap_up_code.title) {
+            const tp = c.wrap_up_code.type || '';
+            const tpCls = tp.indexOf('success') >= 0 ? 'wt-success' :
+                          tp.indexOf('fail') >= 0 ? 'wt-failure' : 'wt-neutral';
+            wrapHtml = '<div class="wrapup-row">'
+                     + '<span class="wrapup-title">' + esc(c.wrap_up_code.title) + '</span>'
+                     + (tp ? '<span class="wrapup-type ' + tpCls + '">' + esc(tp) + '</span>' : '')
+                     + '</div>';
+        }
+
+        // Tags
+        let tagsHtml = '<span class="no-data">Sin etiquetas</span>';
         if (c.tags && c.tags.length) {
-            var t = '<div class="pill-row">';
-            for (var i = 0; i < c.tags.length; i++) {
-                t += '<span class="pill pill-tag"> ' + esc(c.tags[i].tag_name) + '</span>';
+            let t = '<div class="pill-row">';
+            for (let i = 0; i < c.tags.length; i++) {
+                t += '<span class="pill pill-tag">🏷 ' + esc(c.tags[i].tag_name) + '</span>';
             }
             tagsHtml = t + '</div>';
         }
 
-        // topics
-        var topicsHtml = '<span class="no-data">Sin información</span>';
+        // Topics
+        let topicsHtml = '<span class="no-data">Sin temas</span>';
         if (c.topics && c.topics.length) {
-            var t = '<div class="pill-row">';
-            for (var i = 0; i < c.topics.length; i++) {
-                t += '<span class="pill pill-topic"> ' + esc(c.topics[i].topic_name) + '</span>';
+            let t = '<div class="pill-row">';
+            for (let i = 0; i < c.topics.length; i++) {
+                t += '<span class="pill pill-topic">◆ ' + esc(c.topics[i].topic_name) + '</span>';
             }
             topicsHtml = t + '</div>';
         }
 
-        // comments
-        var commentsHtml = '<span class="no-data">Sin información</span>';
+        // Comments
+        let commentsHtml = '<span class="no-data">Sin comentarios</span>';
         if (c.comments && c.comments.length) {
-            var t = '';
-            for (var i = 0; i < c.comments.length; i++) {
-                var cm = c.comments[i];
+            let t = '';
+            for (let i = 0; i < c.comments.length; i++) {
+                const cm = c.comments[i];
                 t += '<div class="comment-block">'
                    + '<div class="comment-text">💬 ' + esc(cm.comment) + '</div>'
+                   + '<div class="comment-date">' + fmtDate(cm.create_date) + '</div>'
                    + '</div>';
             }
             commentsHtml = t;
         }
 
-        // campaign
-        var campHtml = '<span class="no-data">Sin información</span>';
-        var camp = c.agent_campaign || c.campaign;
-        if (camp && camp.title) {
-            campHtml = '<div class="pill-row">'
-                     + '<span class="pill pill-camp">📋 ' + esc(camp.title) + '</span>'
-                     + (camp.status ? '<span class="pill pill-camp" style="opacity:.7">' + esc(camp.status) + '</span>' : '')
-                     + '</div>';
+        // Build call_data section
+        const callDataFields = [
+            { key: 'NOMBRE_CLIENTE', label: 'Nombre Cliente' },
+            { key: 'PU', label: 'PU' },
+            { key: 'FECHA', label: 'Fecha' },
+            { key: 'CUBETA', label: 'Cubeta' },
+            { key: 'CUENTA', label: 'Cuenta' },
+            { key: 'MENSAJE', label: 'Mensaje' },
+            { key: 'PRODUCTO', label: 'Producto' },
+            { key: 'DESCUENTO', label: 'Descuento' },
+            { key: 'MATIURITY', label: 'Matiurity' },
+            { key: 'ROL_GRUPO', label: 'Rol Grupo' },
+            { key: 'SALDO_VENCIDO_INTEGRANTE', label: 'Saldo Vencido Integrante' }
+        ];
+
+        let callDataHTML = '';
+        for (let i = 0; i < callDataFields.length; i++) {
+            const field = callDataFields[i];
+            const value = callData[field.key] || '—';
+            callDataHTML += '<div class="call-data-item">'
+                          + '<div class="call-data-label">' + field.label + '</div>'
+                          + '<div class="call-data-value">' + esc(value) + '</div>'
+                          + '</div>';
         }
 
         return '<div class="call-card">'
             + '<div class="card-header">'
             +   '<div class="phone-row">'
-            +     '<span class="dir-badge ' + dirCls + '">' + dirLbl + '</span>'
-            +     '<span class="phone-num">📞 ' + esc(phoneB) + '</span>' 
-            +  '<span class="call-date">' + fmtDate(c.datetime_start) + '</span>'
+            +     '<span class="dir-badge">Saliente</span>'
+            +     '<span class="phone-num">📞 ' + esc(phoneB) + '</span>'
             +   '</div>'
-            /*
             +   '<div class="header-right">'
             +     '<span class="call-date">' + fmtDate(c.datetime_start) + '</span>'
-            +     //'<span class="status-badge ' + statCls + '">' + statLbl + '</span>'
-            +      '<span class=""></span>'
+            +     '<span class="call-duration">' + durStr + '</span>'
             +   '</div>'
-            */
             + '</div>'
             + '<div class="card-body">'
-            +   '<div class="field">'
-            +     '<div class="fl">Duración</div>'
-            +     '<div class="fv bold">' + durStr + '</div>'
-            +   '</div>'
+            
             +   '<div class="field">'
             +     '<div class="fl">Finalización</div>'
             +     '<div class="fv"><div class="completion-row">'
@@ -551,27 +461,36 @@
             +       '<span style="color:' + ccColor + ';font-weight:600;font-size:10px;">' + esc(cc) + '</span>'
             +     '</div></div>'
             +   '</div>'
-            +   '<div class="field">'
+
+            +   '<div class="divider"></div>'
+
+            +   '<div class="field full">'
             +     '<div class="fl">Tipificación (código / tipo)</div>'
             +     '<div class="fv">' + wrapHtml + '</div>'
             +   '</div>'
-            +   '<div class="field">'
+
+            +   '<div class="field full">'
             +     '<div class="fl">Etiquetas</div>'
             +     '<div class="fv">' + tagsHtml + '</div>'
             +   '</div>'
-            +   '<div class="field">'
+
+            +   '<div class="field full">'
             +     '<div class="fl">Temas</div>'
             +     '<div class="fv">' + topicsHtml + '</div>'
             +   '</div>'
-               +   '<div class="field">'
-            +     '<div class="fl">Campaña</div>'
-            +     '<div class="fv">' + campHtml + '</div>'
-            +   '</div>'
+
             +   '<div class="divider"></div>'
+
             +   '<div class="field full">'
             +     '<div class="fl">Comentarios</div>'
             +     '<div class="fv">' + commentsHtml + '</div>'
             +   '</div>'
+
+            +   '<div class="call-data-section">'
+            +     '<div class="call-data-title">📋 Datos de la Llamada</div>'
+            +     '<div class="call-data-grid">' + callDataHTML + '</div>'
+            +   '</div>'
+
             + '</div>'
             + '</div>';
     }
@@ -589,7 +508,7 @@
             stateError.classList.add('visible');
         } else if (which === 'empty') {
             document.querySelector('#stateEmpty .state-text').textContent =
-                msg || 'Esperando llamada activa o búsqueda manual...';
+                msg || 'Ingresa un número de teléfono para buscar llamadas';
             stateEmpty.classList.add('visible');
         }
     }
@@ -597,7 +516,7 @@
     function fmtDate(str) {
         if (!str) return 'N/A';
         try {
-            var d = new Date(str.replace(' ', 'T'));
+            const d = new Date(str.replace(' ', 'T'));
             if (isNaN(d.getTime())) return str;
             return d.toLocaleString('es-MX', {
                 day: '2-digit', month: 'short', year: 'numeric',
@@ -609,7 +528,7 @@
     function fmtSec(s) {
         s = parseInt(s) || 0;
         if (s < 60) return s + 's';
-        var m = Math.floor(s / 60), r = s % 60;
+        const m = Math.floor(s / 60), r = s % 60;
         return r ? (m + 'm ' + r + 's') : (m + 'm');
     }
 
@@ -620,7 +539,7 @@
             .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    console.log('Historial de Llamadas loaded. Listening for call events...');
+    console.log('Historial de Llamadas loaded. Ready for searches.');
 </script>
 </body>
 </html>
