@@ -288,6 +288,15 @@
         }
     });
 
+
+    window.addEventListener('message', function(event) {
+                        
+            const datos = event.data;
+            
+            console.log('🔵 Received postMessage datos:', datos);
+            console.log('🔵 Received postMessage event.data.active_task_data.CALL.phone_b:', event.data.active_task_data.CALL.phone_b);
+    });
+
     // Manual search
     searchBtn.addEventListener('click', doSearch);
     phoneInput.addEventListener('keydown', function(e) {
