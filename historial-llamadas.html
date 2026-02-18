@@ -216,7 +216,7 @@
 <body>
 
     <div class="header">
-        <h1>🔍 Historial de Llamadas v19 </h1>
+        <h1>🔍 Historial de Llamadas v20 </h1>
         <div class="search-form">
             <div class="form-group">
                 <label for="phoneInput">Número de Teléfono</label>
@@ -402,10 +402,11 @@
 
             renderCalls(data.result || []);
 
-            if (isAuto) {
+            if (!isAuto) {
                 //autoIndicator.style.display = 'none';
-                yaEjecutado = true;
-
+                console.log('🔵 isAuto :', isAuto);
+                yaEjecutado = false;
+                console.log('🔵cambia a yaEjecutado:', yaEjecutado);
             }
 
         } catch (err) {
