@@ -355,16 +355,6 @@
         const phoneB = (c.phone_b || '').replace(/@\S+/g, '');
         const durStr = fmtSec(c.duration || 0);
 
-        // Parse call_data JSON
-        let callData = {};
-        try {
-            if (c.call_data) {
-                callData = JSON.parse(c.call_data);
-            }
-        } catch(e) {
-            console.error('Error parsing call_data:', e);
-        }
-
         // Completion code
         const cc = c.completion_code || '—';
         const ccColor = cc.indexOf('Answered') >= 0 ? '#28a745' :
@@ -416,31 +406,6 @@
             commentsHtml = t;
         }
 
-        // Build call_data section
-        const callDataFields = [
-            { key: 'NOMBRE_CLIENTE', label: 'Customer Name' },
-            { key: 'PU', label: 'PU' },
-            { key: 'FECHA', label: 'Date' },
-            { key: 'CUBETA', label: 'Bucket' },
-            { key: 'CUENTA', label: 'Account' },
-            { key: 'MENSAJE', label: 'Message' },
-            { key: 'PRODUCTO', label: 'Product' },
-            { key: 'DESCUENTO', label: 'Discount' },
-            { key: 'MATIURITY', label: 'Maturity' },
-            { key: 'ROL_GRUPO', label: 'Group Role' },
-            { key: 'SALDO_VENCIDO_INTEGRANTE', label: 'Overdue Balance (Member)' }
-        ];
-
-        let callDataHTML = '';
-        for (let i = 0; i < callDataFields.length; i++) {
-            const field = callDataFields[i];
-            const value = callData[field.key] || '—';
-            callDataHTML += '<div class="call-data-item">'
-                          + '<div class="call-data-label">' + field.label + '</div>'
-                          + '<div class="call-data-value">' + esc(value) + '</div>'
-                          + '</div>';
-        }
-
         return '<div class="call-card">'
             + '<div class="card-header">'
             +   '<div class="phone-row">'
@@ -484,11 +449,6 @@
             +   '<div class="field full">'
             +     '<div class="fl">Comments</div>'
             +     '<div class="fv">' + commentsHtml + '</div>'
-            +   '</div>'
-
-            +   '<div class="call-data-section">'
-            +     '<div class="call-data-title">📋 Call Data</div>'
-            +     '<div class="call-data-grid">' + callDataHTML + '</div>'
             +   '</div>'
 
             + '</div>'
