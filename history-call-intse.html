@@ -122,8 +122,9 @@
             font-size: 9px; font-weight: 600;
             padding: 2px 6px; border-radius: 3px;
             text-transform: uppercase;
-            background: #cce5ff; color: #004085;
         }
+        .badge-out { background: #cce5ff; color: #004085; }
+        .badge-in  { background: #d4edda; color: #155724; }
 
         .header-right { display: flex; align-items: center; gap: 6px; }
         .call-date { font-size: 9px; color: #888; }
@@ -294,6 +295,33 @@
         if (e.key === 'Enter') doSearch();
     });
 
+    async function fetchDirection(phone, direction) {
+        const url = 'https://' + CONFIG.host + '/api/v4/history/searchCalls?domain=' + CONFIG.domain;
+        const params = new URLSearchParams({
+            access_token:        CONFIG.token,
+            phone:               phone,
+            call_direction:      direction,
+            with_campaigns:      'true',
+            with_tags:           'true',
+            with_wrap_up_code:   'true',
+            with_agent_campaign: 'true',
+            with_topics:         'true',
+            with_comments:       'true'
+        });
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status + ' (' + direction + ')');
+        const data = await res.json();
+        if (!data.success) throw new Error('The API returned success=false (' + direction + ')');
+        return (data.result || []).map(function(c) {
+            c._direction = direction;
+            return c;
+        });
+    }
+
     async function doSearch() {
         const phone = phoneInput.value.trim();
         if (!phone) return;
@@ -302,31 +330,16 @@
         searchBtn.disabled = true;
 
         try {
-            const url = 'https://' + CONFIG.host + '/api/v4/history/searchCalls?domain=' + CONFIG.domain;
+            const [outgoing, incoming] = await Promise.all([
+                fetchDirection(phone, 'outgoing'),
+                fetchDirection(phone, 'incoming')
+            ]);
 
-            const params = new URLSearchParams({
-                access_token:        CONFIG.token,
-                phone:               phone,
-                call_direction:      'outgoing',
-                with_campaigns:      'true',
-                with_tags:           'true',
-                with_wrap_up_code:   'true',
-                with_agent_campaign: 'true',
-                with_topics:         'true',
-                with_comments:       'true'
+            const all = outgoing.concat(incoming).sort(function(a, b) {
+                return new Date(b.datetime_start) - new Date(a.datetime_start);
             });
 
-            const res = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: params
-            });
-
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            const data = await res.json();
-            if (!data.success) throw new Error('The API returned success=false');
-
-            renderCalls(data.result || []);
+            renderCalls(all);
 
         } catch (err) {
             console.error(err);
@@ -338,7 +351,7 @@
 
     function renderCalls(calls) {
         if (!calls.length) {
-            showState('empty', 'No outgoing calls found for this number');
+            showState('empty', 'No calls found for this number');
             return;
         }
 
@@ -409,7 +422,7 @@
         return '<div class="call-card">'
             + '<div class="card-header">'
             +   '<div class="phone-row">'
-            +     '<span class="dir-badge">Outgoing</span>'
+            +     '<span class="dir-badge ' + (c._direction === 'incoming' ? 'badge-in' : 'badge-out') + '">' + (c._direction === 'incoming' ? 'Inbound' : 'Outbound') + '</span>'
             +     '<span class="phone-num">📞 ' + esc(phoneB) + '</span>'
             +   '</div>'
             +   '<div class="header-right">'
